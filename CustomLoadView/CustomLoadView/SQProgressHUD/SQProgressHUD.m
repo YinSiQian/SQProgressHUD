@@ -63,7 +63,7 @@ static CGFloat const lineWidth = 6;
 
 @implementation SQProgressHUD
 
-+ (instancetype)showHUDtoView:(UIView *)view animated:(BOOL)animated {
++ (instancetype)showHUDToView:(UIView *)view animated:(BOOL)animated {
     SQProgressHUD *load = [[SQProgressHUD alloc]initWithView:view];
     [view addSubview:load];
     [load startAnimation:animated];
@@ -116,7 +116,7 @@ static CGFloat const lineWidth = 6;
 }
 
 
-+ (void)hideHUDtoView:(UIView *)view animated:(BOOL)animated {
++ (void)hideHUDToView:(UIView *)view animated:(BOOL)animated {
     SQProgressHUD *hud = [self HUDForView:view];
     if (hud != nil) {
         [hud hide:animated];
@@ -154,7 +154,7 @@ static CGFloat const lineWidth = 6;
 }
 
 - (void)show:(BOOL)animated {
-    NSAssert([NSThread isMainThread], @"MBProgressHUD needs to be accessed on the main thread.");
+    NSAssert([NSThread isMainThread], @"SQProgressHUD needs to be accessed on the main thread.");
     self.backView.hidden = NO;
     if (animated) {
         // CGAffineTransform CGAffineTransformScale(CGAffineTransform t,CGFloat sx, CGFloat sy)

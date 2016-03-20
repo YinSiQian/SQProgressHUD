@@ -10,9 +10,9 @@
 
 @interface SQProgressHUD : UIView
 
-+ (instancetype)showHUDtoView:(UIView *)view animated:(BOOL)animated;
++ (instancetype)showHUDToView:(UIView *)view animated:(BOOL)animated;
 
-+ (void)hideHUDtoView:(UIView *)view animated:(BOOL)animated;
++ (void)hideHUDToView:(UIView *)view animated:(BOOL)animated;
 
 
 @end

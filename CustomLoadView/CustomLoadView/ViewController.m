@@ -8,12 +8,8 @@
 
 #import "ViewController.h"
 #import "SQProgressHUD.h"
-#define WIDTH [UIScreen mainScreen].bounds.size.width
-#define HEIGHT [UIScreen mainScreen].bounds.size.height
 
 @interface ViewController ()
-
-@property (nonatomic, strong) SQProgressHUD *load;
 
 @end
 
@@ -42,11 +38,11 @@
 }
 
 - (void)showHud {
-    [SQProgressHUD showHUDtoView:self.view animated:YES];
+    [SQProgressHUD showHUDToView:self.view animated:YES];
 }
 
 - (void)hideHud {
-    [SQProgressHUD hideHUDtoView:self.view animated:YES];
+    [SQProgressHUD hideHUDToView:self.view animated:YES];
 }
 
 
