@@ -38,9 +38,12 @@
 }
 
 - (void)showHud {
-    SQProgressHUD *hud =[SQProgressHUD showHUDToView:self.view animated:YES];
-    //chang HUD color
+    SQProgressHUD *hud = [SQProgressHUD showHUDToView:self.view message:@"正在努力加载中..." animated:YES];
+    //   SQProgressHUD *hud =[SQProgressHUD showHUDToView:self.view animated:YES];
+    //    chang HUD color
     hud.lineColor = [UIColor greenColor];
+    //    chang HUD lineWidth
+    hud.lineWidth = 4.0f;
 }
 
 - (void)hideHud {
