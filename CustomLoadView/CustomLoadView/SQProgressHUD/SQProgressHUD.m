@@ -49,13 +49,15 @@ static CGFloat const lineWidth = 6;
     CGContextStrokePath(ctx);
 }
 
+
+
 @end
 
 
 @interface SQProgressHUD ()
 
 @property (nonatomic, strong) YSQCALayer *ysqLayer;
-@property (nonatomic , strong) CAShapeLayer *textLayer;
+@property (nonatomic, strong) CAShapeLayer *textLayer;
 @property (nonatomic, strong) UIView *backView;
 
 @end
@@ -79,6 +81,7 @@ static CGFloat const lineWidth = 6;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        self.lineColor = [UIColor redColor];
         [self createBackView];
         [self createLayer];
     }
@@ -96,7 +99,7 @@ static CGFloat const lineWidth = 6;
 - (void)createLayer {
     self.ysqLayer = [YSQCALayer layer];
     self.ysqLayer.contentsScale = [UIScreen mainScreen].scale;
-    self.ysqLayer.color = [UIColor redColor];
+    self.ysqLayer.color = self.lineColor;
     self.ysqLayer.lineWidth = lineWidth;
     self.ysqLayer.bounds = self.backView.bounds;
     self.ysqLayer.position = CGPointMake(CGRectGetMidX(self.backView.bounds), CGRectGetMidY(self.backView.bounds));
@@ -188,6 +191,13 @@ static CGFloat const lineWidth = 6;
         }];
     } else {
         [self removeFromSuperview];
+    }
+}
+
+- (void)setLineColor:(UIColor *)lineColor {
+    if (_lineColor != lineColor) {
+        _lineColor = lineColor;
+        self.ysqLayer.color = _lineColor;
     }
 }
 

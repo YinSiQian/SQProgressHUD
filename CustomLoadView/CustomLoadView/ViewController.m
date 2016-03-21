@@ -38,7 +38,9 @@
 }
 
 - (void)showHud {
-    [SQProgressHUD showHUDToView:self.view animated:YES];
+    SQProgressHUD *hud =[SQProgressHUD showHUDToView:self.view animated:YES];
+    //chang HUD color
+    hud.lineColor = [UIColor greenColor];
 }
 
 - (void)hideHud {

@@ -10,6 +10,13 @@
 
 @interface SQProgressHUD : UIView
 
+/**
+ *  if you change this property,the hud color will change. Default is red color.
+ */
+@property (nonatomic, strong) UIColor *lineColor;
+
+
+
 + (instancetype)showHUDToView:(UIView *)view animated:(BOOL)animated;
 
 + (void)hideHUDToView:(UIView *)view animated:(BOOL)animated;
