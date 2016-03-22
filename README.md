@@ -1,5 +1,9 @@
 # SQProgressHUD 自定制的加载视图
 ===
+效果展示
+---
+    ![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/SQProgressHUD/showHUD.gif)   
+
 加载loading <br>
 ---
     [SQProgressHUD showHUDToView:self.view animated:YES];
