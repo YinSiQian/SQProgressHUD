@@ -40,7 +40,7 @@ static CGFloat const heightWithMsg = 100;
     CGFloat radius = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) /2 - self.lineWidth*2 ;
     CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
     //radius 半径 angle 角度 clockwise:顺时针
-    [path addArcWithCenter:center radius:radius startAngle: 0 endAngle:-M_PI_2*2  clockwise:YES];
+    [path addArcWithCenter:center radius:radius startAngle: 0 endAngle:M_PI*3/2.0  clockwise:YES];
     CGContextAddPath(ctx, path.CGPath);
     CGContextSetLineWidth(ctx, self.lineWidth);
     CGContextSetStrokeColorWithColor(ctx, self.color.CGColor);

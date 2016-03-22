@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "SQProgressHUD.h"
 
-@interface ViewController ()
+@interface ViewController ()<UIActionSheetDelegate>
 
 @end
 
@@ -38,16 +38,53 @@
 }
 
 - (void)showHud {
-    SQProgressHUD *hud = [SQProgressHUD showHUDToView:self.view message:@"正在努力加载中..." animated:YES];
-    //   SQProgressHUD *hud =[SQProgressHUD showHUDToView:self.view animated:YES];
-    //    chang HUD color
-    hud.lineColor = [UIColor greenColor];
-    //    chang HUD lineWidth
-    hud.lineWidth = 4.0f;
+    [SQProgressHUD hideAllHUDsToView:self.view animated:YES];
+    UIActionSheet *sheet = [[UIActionSheet alloc]initWithTitle:@"showHUD"
+                                                                                                delegate:self
+                                                                                cancelButtonTitle:@"取消"
+                                                                        destructiveButtonTitle:nil
+                                                                                 otherButtonTitles:@"只显示loading",
+                                                                                                                    @"带文本显示Loading",
+                                                                                                                    @"修改HUD颜色",
+                                                                                                                    @"修改HUD粗度",
+                                                                                                                    @"修改HUD颜色,粗度,带文本显示",  nil];
+    [sheet showInView:self.view];
+    sheet = nil;
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch (buttonIndex) {
+        case 0: {
+            [SQProgressHUD showHUDToView:self.view animated:YES];
+            break;
+        }
+        case 1: {
+            [SQProgressHUD showHUDToView:self.view message:@"正在努力加载中..." animated:YES];
+            break;
+        }
+        case 2: {
+            SQProgressHUD *hud = [SQProgressHUD showHUDToView:self.view animated:YES];
+            hud.lineColor = [UIColor greenColor];
+            break;
+        }
+        case 3: {
+            SQProgressHUD *hud = [SQProgressHUD showHUDToView:self.view animated:YES];
+            hud.lineWidth = 4.0f;
+            break;
+        }
+        case 4: {
+            SQProgressHUD *hud = [SQProgressHUD showHUDToView:self.view message:@"Y哥正在努力帮你加载中..." animated:YES];
+            hud.lineColor = [UIColor whiteColor];
+            hud.lineWidth = 2.0f;
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (void)hideHud {
-    [SQProgressHUD hideHUDToView:self.view animated:YES];
+    [SQProgressHUD hideAllHUDsToView:self.view animated:YES];
 }
 
 
