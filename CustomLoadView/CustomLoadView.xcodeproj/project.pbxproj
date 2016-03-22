@@ -15,7 +15,7 @@
 		F1B1E6051C8D2A220097913F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1B1E6041C8D2A220097913F /* Assets.xcassets */; };
 		F1B1E6081C8D2A220097913F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1B1E6061C8D2A220097913F /* LaunchScreen.storyboard */; };
 		F1B1E6131C8D2A220097913F /* CustomLoadViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B1E6121C8D2A220097913F /* CustomLoadViewUITests.m */; };
-		F1BDE35F1CA12790007C809E /* showHUD.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BDE35E1CA12790007C809E /* showHUD.gif */; };
+		F1BDE3621CA12B4D007C809E /* showHUD.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BDE3611CA12B4D007C809E /* showHUD.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +44,7 @@
 		F1B1E60E1C8D2A220097913F /* CustomLoadViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomLoadViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B1E6121C8D2A220097913F /* CustomLoadViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomLoadViewUITests.m; sourceTree = "<group>"; };
 		F1B1E6141C8D2A220097913F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1BDE35E1CA12790007C809E /* showHUD.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = showHUD.gif; sourceTree = "<group>"; };
+		F1BDE3611CA12B4D007C809E /* showHUD.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = showHUD.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,7 +68,6 @@
 		F12AA3C41C9E84CC00FB239A /* SQProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
-				F1BDE35E1CA12790007C809E /* showHUD.gif */,
 				F12AA3C51C9E84CC00FB239A /* SQProgressHUD.h */,
 				F12AA3C61C9E84CC00FB239A /* SQProgressHUD.m */,
 			);
@@ -96,6 +95,7 @@
 		F1B1E5F71C8D2A220097913F /* CustomLoadView */ = {
 			isa = PBXGroup;
 			children = (
+				F1BDE3601CA12B31007C809E /* Resource */,
 				F12AA3C41C9E84CC00FB239A /* SQProgressHUD */,
 				F1B1E5FB1C8D2A220097913F /* AppDelegate.h */,
 				F1B1E5FC1C8D2A220097913F /* AppDelegate.m */,
@@ -125,6 +125,14 @@
 				F1B1E6141C8D2A220097913F /* Info.plist */,
 			);
 			path = CustomLoadViewUITests;
+			sourceTree = "<group>";
+		};
+		F1BDE3601CA12B31007C809E /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				F1BDE3611CA12B4D007C809E /* showHUD.gif */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,7 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F1B1E6081C8D2A220097913F /* LaunchScreen.storyboard in Resources */,
-				F1BDE35F1CA12790007C809E /* showHUD.gif in Resources */,
+				F1BDE3621CA12B4D007C809E /* showHUD.gif in Resources */,
 				F1B1E6051C8D2A220097913F /* Assets.xcassets in Resources */,
 				F1B1E6031C8D2A220097913F /* Main.storyboard in Resources */,
 			);
