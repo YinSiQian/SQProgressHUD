@@ -2,7 +2,7 @@
 ===
 效果展示
 ---
-    ![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/SQProgressHUD/showHUD.gif)   
+![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/SQProgressHUD/showHUD.gif)   
 
 加载loading <br>
 ---
