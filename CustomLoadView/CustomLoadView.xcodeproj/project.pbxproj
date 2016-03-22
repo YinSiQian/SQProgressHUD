@@ -16,6 +16,7 @@
 		F1B1E6081C8D2A220097913F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1B1E6061C8D2A220097913F /* LaunchScreen.storyboard */; };
 		F1B1E6131C8D2A220097913F /* CustomLoadViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B1E6121C8D2A220097913F /* CustomLoadViewUITests.m */; };
 		F1BDE3621CA12B4D007C809E /* showHUD.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BDE3611CA12B4D007C809E /* showHUD.gif */; };
+		F1BDE3951CA182DB007C809E /* success.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BDE3941CA182DA007C809E /* success.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		F1B1E6121C8D2A220097913F /* CustomLoadViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomLoadViewUITests.m; sourceTree = "<group>"; };
 		F1B1E6141C8D2A220097913F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F1BDE3611CA12B4D007C809E /* showHUD.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = showHUD.gif; sourceTree = "<group>"; };
+		F1BDE3941CA182DA007C809E /* success.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = success.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				F1BDE3611CA12B4D007C809E /* showHUD.gif */,
+				F1BDE3941CA182DA007C809E /* success.gif */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				F1BDE3621CA12B4D007C809E /* showHUD.gif in Resources */,
 				F1B1E6051C8D2A220097913F /* Assets.xcassets in Resources */,
 				F1B1E6031C8D2A220097913F /* Main.storyboard in Resources */,
+				F1BDE3951CA182DB007C809E /* success.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

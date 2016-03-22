@@ -47,7 +47,9 @@
                                                                                                                     @"带文本显示Loading",
                                                                                                                     @"修改HUD颜色",
                                                                                                                     @"修改HUD粗度",
-                                                                                                                    @"修改HUD颜色,粗度,带文本显示",  nil];
+                                                                                                                    @"修改HUD颜色,粗度,带文本显示",
+                                                                                                                    @"successHUD",
+                                                                                                                    @"FailHUD" ,nil];
     [sheet showInView:self.view];
     sheet = nil;
 }
@@ -76,6 +78,16 @@
             SQProgressHUD *hud = [SQProgressHUD showHUDToView:self.view message:@"Y哥正在努力帮你加载中..." animated:YES];
             hud.lineColor = [UIColor whiteColor];
             hud.lineWidth = 2.0f;
+            break;
+        }
+        case 5: {
+            SQProgressHUD *hud = [SQProgressHUD showSuccessToView:self.view];
+            hud.lineColor = [UIColor whiteColor];
+            hud.lineWidth = 6.0f;
+            break;
+        }
+        case 6: {
+            [SQProgressHUD showFailToView:self.view];
             break;
         }
         default:

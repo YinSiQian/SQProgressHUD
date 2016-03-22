@@ -11,6 +11,8 @@
 typedef enum : NSUInteger {
     SQProgressHUDWithMessage,
     SQProgressHUDNormal,
+    SQProgressHUDSuccess,
+    SQProgressHUDFail,
 } SQProgressHUDType;
 
 
@@ -49,6 +51,26 @@ typedef enum : NSUInteger {
 + (instancetype)showHUDToView:(UIView *)view animated:(BOOL)animated;
 
 /**
+ *  Creates a new successful status HUD, adds it to provides view and show it.And it will removed automatically after 2 seconds.
+ *
+ *  @param view  The view that the HUD  will be added to.
+ *
+ *  @return A reference to the created HUD.
+ */
++ (instancetype)showSuccessToView:(UIView *)view;
+
+/**
+ *  Creates a new unsuccessful status HUD, adds it to provides view and show it.And it will removed automatically after 2 seconds
+ *
+ *  @param view The view that the HUD  will be added to.
+ *
+ *  @return A reference to the created HUD.
+ */
+
++ (instancetype)showFailToView:(UIView *)view;
+
+
+/**
  *  Finds the top-most  HUD subviews and hides it. The counterpart to this method is showHUDToView:animated:.
  *
  *  @param view     The view that is going to be searched for a HUD subview.
@@ -72,14 +94,11 @@ typedef enum : NSUInteger {
 @end
 
 
-@interface YSQCALayer : CALayer
+@interface YSQCALayer : CAShapeLayer
 /**
  *   Sets the stroke color of layer.
  */
 @property (nonatomic, strong) UIColor *color;
-/**
- *  Sets the lineWidth of layer.
- */
-@property (nonatomic, assign) CGFloat lineWidth;
+
 
 @end
