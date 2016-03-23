@@ -2,18 +2,24 @@
 ===
 效果展示
 ---
-![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/Resource/showHUD.gif)   
+![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/Resource/showHUD.gif)  
+![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/Resource/success.gif)
 
 加载loading <br>
 ---
-    [SQProgressHUD showHUDToView:self.view animated:YES];
+     [SQProgressHUD showHUDToView:self.view animated:YES];
      带文本加载Loading 
-    [SQProgressHUD showHUDToView:self.view message:@"正在努力加载中..." animated:YES];
+     [SQProgressHUD showHUDToView:self.view message:@"正在努力加载中..." animated:YES];
+     提交成功的提示框
+     [SQProgressHUD showSuccessToView:self.view];    
+     失败的提示框
+     [SQProgressHUD showFailToView:self.view];
+
 隐藏loading <br>
 ---
         隐藏loading 
         [SQProgressHUD hideHUDToView:self.view animated:YES];
-        隐藏view上的所有SQProgressHUD <br>
+        隐藏view上的所有SQProgressHUD 
         [SQProgressHUD hideAllHUDsToView:self.view animated:YES];
 
 修改Loading<br>
