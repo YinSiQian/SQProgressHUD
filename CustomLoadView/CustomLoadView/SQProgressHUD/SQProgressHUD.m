@@ -7,58 +7,30 @@
 
 #import "SQProgressHUD.h"
 
-#define TEXT_FONT  [UIFont boldSystemFontOfSize:12]
+#define TEXT_FONT  [UIFont boldSystemFontOfSize:14]
 
 static NSString *const key_animation = @"key_animation";
 static CGFloat const cornerRadius = 6;
 static CGFloat const backViewWidth = 80;
 static CGFloat const backViewHeight = 80;
 static CGFloat const duration = 0.3;
+static CGFloat const failDuration = 0.5;
 static CGFloat const lineWidth = 6;
 static CGFloat const heightWithMsg = 100;
-
-@implementation YSQCALayer
-
-@dynamic lineWidth;
-@dynamic color;
-@dynamic frame;
-
-+ (BOOL)needsDisplayForKey:(NSString *)key {
-    if ([key isEqualToString:@"color"]) {
-        return YES;
-    } else if ([key isEqualToString:@"lineWidth"]) {
-        return YES;
-    } else if ([key isEqualToString:@"frame"]) {
-        return YES;
-    }
-    return [super needsDisplayForKey:key];
-}
-
-- (void)drawInContext:(CGContextRef)ctx {
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    CGFloat radius = MIN(CGRectGetWidth(self.bounds), CGRectGetHeight(self.bounds)) /2 - self.lineWidth*2 ;
-    CGPoint center = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
-    //radius 半径 angle 角度 clockwise:顺时针
-    [path addArcWithCenter:center radius:radius startAngle: 0 endAngle:M_PI*3/2.0  clockwise:YES];
-    CGContextAddPath(ctx, path.CGPath);
-    CGContextSetLineWidth(ctx, self.lineWidth);
-    CGContextSetStrokeColorWithColor(ctx, self.color.CGColor);
-    CGContextStrokePath(ctx);
-}
-
-@end
-
+static CGFloat const MAX_WIDTH = 300;
+static CGFloat const removeTime = 1.5f;
 
 @interface SQProgressHUD ()
 
-@property (nonatomic, strong) YSQCALayer *circleLayer;
+@property (nonatomic, strong) CAShapeLayer *circleLayer;
 @property (nonatomic, strong) CAShapeLayer *resultLayer;
 @property (nonatomic, strong) CAShapeLayer *FailTopLayer;
 @property (nonatomic, strong) CAShapeLayer *FailBottomLayer;
 @property (nonatomic, strong) UIView *backView;
-@property (nonatomic, strong) UILabel *textLable;
+@property (nonatomic, strong) UILabel *text;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) SQProgressHUDType HUDType;
+@property (nonatomic, assign) BOOL shake;
 
 @end
 
@@ -68,7 +40,7 @@ static CGFloat const heightWithMsg = 100;
 #pragma mark ---class method
 + (instancetype)showHUDToView:(UIView *)view message:(NSString *)message animated:(BOOL)animated {
     SQProgressHUD *load = [[SQProgressHUD alloc]initWithView:view message:message];
-    [load initType:SQProgressHUDWithMessage];
+    [load initType:SQProgressHUDWithMessage shake:NO];
     [view addSubview:load];
     [load startAnimation:animated];
     return load;
@@ -76,23 +48,23 @@ static CGFloat const heightWithMsg = 100;
 
 + (instancetype)showHUDToView:(UIView *)view animated:(BOOL)animated {
     SQProgressHUD *load = [[SQProgressHUD alloc]initWithView:view message:nil];
-    [load initType:SQProgressHUDNormal];
+    [load initType:SQProgressHUDNormal shake:NO];
     [view addSubview:load];
     [load startAnimation:animated];
     return load;
 }
 
-+ (instancetype)showSuccessToView:(UIView *)view  {
++ (instancetype)showSuccessToView:(UIView *)view {
     SQProgressHUD *load = [[SQProgressHUD alloc]initWithView:view message:nil];
-    [load initType:SQProgressHUDSuccess];
+    [load initType:SQProgressHUDSuccess shake:NO];
     [view addSubview:load];
     [load startSuccessAnimation:NO];
     return load;
 }
 
-+ (instancetype)showFailToView:(UIView *)view {
-    SQProgressHUD *load = [[SQProgressHUD alloc]initWithView:view message:nil];
-    [load initType:SQProgressHUDFail];
++ (instancetype)showFailToView:(UIView *)view message:(NSString *)message shake:(BOOL)shake{
+    SQProgressHUD *load = [[SQProgressHUD alloc]initWithView:view message:message];
+    [load initType:SQProgressHUDFail shake:shake];
     [view addSubview:load];
     [load show:NO];
     return load;
@@ -118,7 +90,8 @@ static CGFloat const heightWithMsg = 100;
 
 #pragma mark --init
 
-- (void)initType:(SQProgressHUDType)type {
+- (void)initType:(SQProgressHUDType)type shake:(BOOL)shake{
+    self.shake = shake;
     switch (type) {
         case SQProgressHUDSuccess: {
             [self createResultLayer];
@@ -126,6 +99,10 @@ static CGFloat const heightWithMsg = 100;
         }
         case SQProgressHUDFail: {
             [self createFailLayer];
+            if (self.title) {
+                [self createTitleLable];
+                [self showFailMessageAnimation];
+            }
             [self showFailAnimationOne];
             [self showFailAnimationTwo];
             break;
@@ -160,25 +137,35 @@ static CGFloat const heightWithMsg = 100;
 }
 
 #pragma mark ---UI
-- (void)createTitleLable {
+
+- (void)resetFrame {
     CGFloat width = 0;
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
-    paragraphStyle.lineSpacing = 4;
-    NSDictionary *attr = @{NSFontAttributeName:TEXT_FONT, NSParagraphStyleAttributeName:paragraphStyle};
-    CGSize size = [self.title boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:attr context:nil].size;
+    CGSize size = [self computeSizeWithString:self.title];
     width = size.width  > backViewWidth ? size.width : backViewWidth;
     self.backView.frame = CGRectMake((self.frame.size.width - width) / 2, (self.frame.size.height - heightWithMsg) / 2, width + 20, heightWithMsg);
-    self.circleLayer.frame = CGRectMake(0, 0, self.backView.frame.size.width, self.backView.frame.size.height - size.height - 5);
-        self.textLable = [[UILabel alloc]initWithFrame:CGRectMake(0, self.backView.frame.size.height - size.height - 5, self.backView.frame.size.width, size.height)];
-    self.textLable.font =  TEXT_FONT;
-    self.textLable.textColor = [UIColor whiteColor];
-    self.textLable.textAlignment = NSTextAlignmentCenter;
-    self.textLable.text = self.title;
-    [self.backView addSubview:self.textLable];
+    if (self.HUDType == SQProgressHUDWithMessage) {
+        self.circleLayer.frame = CGRectMake(0, 0, self.backView.frame.size.width, self.backView.frame.size.height - size.height - 5);
+    } else if (self.HUDType == SQProgressHUDFail) {
+        self.FailTopLayer.frame = CGRectMake(0, 0, self.backView.frame.size.width, self.backView.frame.size.height - size.height - 5);
+        self.FailBottomLayer.frame = CGRectMake(0, 0, self.backView.frame.size.width, self.backView.frame.size.height - size.height - 5);
+    }
+
+}
+
+- (void)createTitleLable {
+    [self resetFrame];
+    CGSize size = [self computeSizeWithString:self.title];
+    self.text = [[UILabel alloc]initWithFrame:CGRectMake(0, self.backView.frame.size.height - size.height - 5, self.backView.frame.size.width, size.height)];
+    self.text.font =  TEXT_FONT;
+    self.text.textColor = [UIColor whiteColor];
+    self.text.textAlignment = NSTextAlignmentCenter;
+    self.text.text = self.title;
+    [self.backView addSubview:self.text];
 }
 
 - (void)createBackView {
-    self.backView = [[UIView alloc]initWithFrame:CGRectMake((self.frame.size.width - backViewWidth) / 2, (self.frame.size.height - backViewHeight) / 2, backViewWidth, backViewHeight)];
+    self.backView = [[UIView alloc]initWithFrame:CGRectMake(0,0, backViewWidth, backViewHeight)];
+    self.backView.center = self.center;
     self.backView.layer.cornerRadius = cornerRadius;
     self.backView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:.8];
     self.backView.hidden = YES;
@@ -187,7 +174,7 @@ static CGFloat const heightWithMsg = 100;
 
 - (void)createResultLayer {
     self.resultLayer = [CAShapeLayer layer];
-    self.resultLayer.strokeColor = [UIColor redColor].CGColor;
+    self.resultLayer.strokeColor = [UIColor whiteColor].CGColor;
     self.resultLayer.lineWidth = lineWidth;
     self.resultLayer.frame = self.backView.bounds;
     self.resultLayer.position = CGPointMake(CGRectGetMidX(self.backView.bounds), CGRectGetMidY(self.backView.bounds));
@@ -198,13 +185,21 @@ static CGFloat const heightWithMsg = 100;
 }
 
 - (void)createLayer {
-    self.circleLayer = [YSQCALayer layer];
+    self.circleLayer = [CAShapeLayer layer];
     self.circleLayer.contentsScale = [UIScreen mainScreen].scale;
-    self.circleLayer.color = self.lineColor;
+    self.circleLayer.strokeColor = self.lineColor.CGColor;
+    self.circleLayer.fillColor = [UIColor clearColor].CGColor;
     self.circleLayer.lineWidth = lineWidth;
     self.circleLayer.frame = self.backView.bounds;
     self.circleLayer.position = CGPointMake(CGRectGetMidX(self.backView.bounds), CGRectGetMidY(self.backView.bounds));
     [self.backView.layer addSublayer:self.circleLayer];
+    
+    //画圈圈
+    CABasicAnimation *circle = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+    circle.duration = duration;
+    circle.fromValue = @0;
+    circle.toValue = @1;
+    [self.circleLayer addAnimation:circle forKey:nil];
 }
 
 - (void)createFailLayer {
@@ -221,10 +216,20 @@ static CGFloat const heightWithMsg = 100;
     [self.backView.layer addSublayer:self.FailTopLayer];
 }
 
+#pragma mark ---Computing size
+
+- (CGSize)computeSizeWithString:(NSString *)string {
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc]init];
+    paragraphStyle.lineSpacing = 4;
+    NSDictionary *attr = @{NSFontAttributeName:TEXT_FONT, NSParagraphStyleAttributeName:paragraphStyle};
+    CGSize size = [string boundingRectWithSize:CGSizeMake(MAX_WIDTH, 20) options:NSStringDrawingUsesLineFragmentOrigin attributes:attr context:nil].size;
+    return size;
+}
+
 #pragma mark ---Animation
 - (void)startSuccessAnimation:(BOOL)animated {
     CABasicAnimation *success = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
-    success.duration = 0.8;
+    success.duration = failDuration;
     success.fromValue = @0;
     success.toValue = @1;
     success.delegate = self;
@@ -234,6 +239,7 @@ static CGFloat const heightWithMsg = 100;
 }
 
 - (void)startAnimation:(BOOL)animated {
+    self.circleLayer.path = [self getCirclePathWithLayer:self.circleLayer].CGPath;
     CABasicAnimation *rotateAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
     rotateAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
     rotateAnimation.fromValue = @(2*M_PI);
@@ -245,6 +251,16 @@ static CGFloat const heightWithMsg = 100;
     [self show:animated];
 }
 
+- (void)showFailMessageAnimation {
+    CATransition *transition = [CATransition animation];
+    transition.type = @"push";
+    transition.subtype = kCATransitionFromLeft;
+    transition.startProgress = 0.3;
+    transition.endProgress = 1;
+    transition.duration = failDuration;
+    [self.text.layer addAnimation:transition forKey:nil];
+}
+
 /*  失败动画参考:http://www.jianshu.com/p/56448d3d3596 */
 - (void)showFailAnimationOne {
     
@@ -252,10 +268,14 @@ static CGFloat const heightWithMsg = 100;
     CGFloat pathPartCount = 5;
     CGFloat visualPathPartCount = 4;
     UIBezierPath *path = [UIBezierPath bezierPath];
-    CGFloat originY = CGRectGetMidY(self.backView.bounds) - 40;
-    CGFloat destY = originY + partLength * pathPartCount;
-    [path moveToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), originY)];
-    [path addLineToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), destY)];
+    CGFloat startDes = CGRectGetMidY(self.backView.bounds) - 40;
+    CGFloat endDes = startDes + partLength * pathPartCount;
+    if (self.title) {
+        startDes -= 10;
+        endDes -=10;
+    }
+    [path moveToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), startDes)];
+    [path addLineToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), endDes)];
     self.FailTopLayer.path = path.CGPath;
     
     // end status
@@ -275,7 +295,7 @@ static CGFloat const heightWithMsg = 100;
     
     CAAnimationGroup *anima = [CAAnimationGroup animation];
     anima.animations = @[startAnimation, endAnimation];
-    anima.duration = 0.5;
+    anima.duration = failDuration;
     [self.FailTopLayer addAnimation:anima forKey:nil];
  
 }
@@ -286,10 +306,14 @@ static CGFloat const heightWithMsg = 100;
     CGFloat visualPathPartCount = 1;
     
     UIBezierPath *path = [UIBezierPath bezierPath];
-    CGFloat originY = CGRectGetMidY(self.backView.bounds) + 40;
-    CGFloat destY = originY - partLength * pathPartCount;
-    [path moveToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), originY)];
-    [path addLineToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), destY)];
+    CGFloat startDes = CGRectGetMidY(self.backView.bounds) + 40;
+    CGFloat endDes = startDes - partLength * pathPartCount;
+    if (self.title) {
+        endDes -= 10;
+        startDes -=10;
+    }
+    [path moveToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), startDes)];
+    [path addLineToPoint:CGPointMake(CGRectGetMidX(self.backView.bounds), endDes)];
     self.FailBottomLayer.path = path.CGPath;
     
     CGFloat strokeStart = (pathPartCount - visualPathPartCount ) / pathPartCount;
@@ -308,7 +332,7 @@ static CGFloat const heightWithMsg = 100;
     
     CAAnimationGroup *animationGroup = [CAAnimationGroup animation];
     animationGroup.animations = @[startAnimation, endAnimation];
-    animationGroup.duration = 0.5;
+    animationGroup.duration = failDuration;
     animationGroup.delegate = self;
     [animationGroup setValue:@"Fail" forKey:key_animation];
     [self.FailBottomLayer addAnimation:animationGroup forKey:nil];
@@ -322,6 +346,16 @@ static CGFloat const heightWithMsg = 100;
     shakeAnimation.autoreverses = YES;
     shakeAnimation.repeatCount = 4;
     [self.backView.layer addAnimation:shakeAnimation forKey:nil];
+}
+
+#pragma mark --- get Animation path
+- (UIBezierPath *)getCirclePathWithLayer:(CAShapeLayer *)layer {
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    CGFloat radius = MIN(CGRectGetWidth(layer.bounds), CGRectGetHeight(layer.bounds)) /2 - lineWidth*2 ;
+    NSLog(@"%f",radius);
+    CGPoint center = CGPointMake(CGRectGetMidX(layer.bounds), CGRectGetMidY(layer.bounds));
+    [path addArcWithCenter:center radius:radius startAngle:0 endAngle:M_PI*3/2.0 clockwise:YES];
+    return path;
 }
 
 - (UIBezierPath *)getBezierPthWithLayer:(CAShapeLayer *)layer {
@@ -420,9 +454,11 @@ static CGFloat const heightWithMsg = 100;
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     
     if ([[anim valueForKey:key_animation] isEqualToString:@"Fail"]) {
-        [self shakeFailAnimation];
+        if (self.shake) {
+            [self shakeFailAnimation];
+        }
     }
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(removeTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self hide:NO];
     });
 }
@@ -431,7 +467,7 @@ static CGFloat const heightWithMsg = 100;
 - (void)setLineColor:(UIColor *)lineColor {
     if (_lineColor != lineColor) {
         _lineColor = lineColor;
-        self.circleLayer.color = _lineColor;
+        self.circleLayer.strokeColor = _lineColor.CGColor;
         self.resultLayer.strokeColor = _lineColor.CGColor;
         self.FailBottomLayer.strokeColor = _lineColor.CGColor;
         self.FailTopLayer.strokeColor = _lineColor.CGColor;
@@ -447,5 +483,7 @@ static CGFloat const heightWithMsg = 100;
         self.FailTopLayer.lineWidth = _lineWidth;
     }
 }
+
+
 @end
 

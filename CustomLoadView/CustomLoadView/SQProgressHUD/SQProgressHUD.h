@@ -63,12 +63,13 @@ typedef enum : NSUInteger {
  *  Creates a new unsuccessful status HUD, adds it to provides view and show it.And it will removed automatically after 2 seconds
  *
  *  @param view The view that the HUD  will be added to.
+ *  @param message The message  is shown for user.When it sets to nil,HUD will only show error logo.
+ *  @param shake if it sets to YES, HUD will perform an  animation of shaking effects. NO otherwise.
  *
  *  @return A reference to the created HUD.
  */
 
-+ (instancetype)showFailToView:(UIView *)view;
-
++ (instancetype)showFailToView:(UIView *)view message:(NSString *)message shake:(BOOL)shake;
 
 /**
  *  Finds the top-most  HUD subviews and hides it. The counterpart to this method is showHUDToView:animated:.
@@ -89,16 +90,6 @@ typedef enum : NSUInteger {
  *  @return the number of SQProgressHUDs found and removed.
  */
 + (NSUInteger)hideAllHUDsToView:(UIView *)view animated:(BOOL)animated;
-
-
-@end
-
-
-@interface YSQCALayer : CAShapeLayer
-/**
- *   Sets the stroke color of layer.
- */
-@property (nonatomic, strong) UIColor *color;
 
 
 @end

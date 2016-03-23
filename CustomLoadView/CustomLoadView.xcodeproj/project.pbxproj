@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		F12AA3C91C9E84CC00FB239A /* SQProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = F12AA3C61C9E84CC00FB239A /* SQProgressHUD.m */; };
+		F1B0863D1CA2850F00A33285 /* hud.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1B0863C1CA2850F00A33285 /* hud.gif */; };
 		F1B1E5FA1C8D2A220097913F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B1E5F91C8D2A220097913F /* main.m */; };
 		F1B1E5FD1C8D2A220097913F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B1E5FC1C8D2A220097913F /* AppDelegate.m */; };
 		F1B1E6001C8D2A220097913F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B1E5FF1C8D2A220097913F /* ViewController.m */; };
@@ -15,8 +16,6 @@
 		F1B1E6051C8D2A220097913F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1B1E6041C8D2A220097913F /* Assets.xcassets */; };
 		F1B1E6081C8D2A220097913F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F1B1E6061C8D2A220097913F /* LaunchScreen.storyboard */; };
 		F1B1E6131C8D2A220097913F /* CustomLoadViewUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = F1B1E6121C8D2A220097913F /* CustomLoadViewUITests.m */; };
-		F1BDE3621CA12B4D007C809E /* showHUD.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BDE3611CA12B4D007C809E /* showHUD.gif */; };
-		F1BDE3951CA182DB007C809E /* success.gif in Resources */ = {isa = PBXBuildFile; fileRef = F1BDE3941CA182DA007C809E /* success.gif */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -32,6 +31,7 @@
 /* Begin PBXFileReference section */
 		F12AA3C51C9E84CC00FB239A /* SQProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQProgressHUD.h; sourceTree = "<group>"; };
 		F12AA3C61C9E84CC00FB239A /* SQProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQProgressHUD.m; sourceTree = "<group>"; };
+		F1B0863C1CA2850F00A33285 /* hud.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = hud.gif; sourceTree = "<group>"; };
 		F1B1E5F51C8D2A220097913F /* CustomLoadView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomLoadView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B1E5F91C8D2A220097913F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		F1B1E5FB1C8D2A220097913F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -45,8 +45,6 @@
 		F1B1E60E1C8D2A220097913F /* CustomLoadViewUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomLoadViewUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B1E6121C8D2A220097913F /* CustomLoadViewUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomLoadViewUITests.m; sourceTree = "<group>"; };
 		F1B1E6141C8D2A220097913F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1BDE3611CA12B4D007C809E /* showHUD.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = showHUD.gif; sourceTree = "<group>"; };
-		F1BDE3941CA182DA007C809E /* success.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = success.gif; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,8 +130,7 @@
 		F1BDE3601CA12B31007C809E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				F1BDE3611CA12B4D007C809E /* showHUD.gif */,
-				F1BDE3941CA182DA007C809E /* success.gif */,
+				F1B0863C1CA2850F00A33285 /* hud.gif */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -218,11 +215,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F1B0863D1CA2850F00A33285 /* hud.gif in Resources */,
 				F1B1E6081C8D2A220097913F /* LaunchScreen.storyboard in Resources */,
-				F1BDE3621CA12B4D007C809E /* showHUD.gif in Resources */,
 				F1B1E6051C8D2A220097913F /* Assets.xcassets in Resources */,
 				F1B1E6031C8D2A220097913F /* Main.storyboard in Resources */,
-				F1BDE3951CA182DB007C809E /* success.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
