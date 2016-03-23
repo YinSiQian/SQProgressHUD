@@ -2,8 +2,8 @@
 ===
 效果展示
 ---
-![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/Resource/showHUD.gif)  
-![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/Resource/success.gif)
+![image](https://github.com/Ysiqian/SQProgressHUD/blob/master/CustomLoadView/CustomLoadView/Resource/hud.gif)  
+
 
 加载loading <br>
 ---
