@@ -11,7 +11,10 @@
      带文本加载Loading 
      [SQProgressHUD showHUDToView:self.view message:@"正在努力加载中..." animated:YES];
      提交成功的提示框
-     [SQProgressHUD showSuccessToView:self.view];    
+     [SQProgressHUD showSuccessToView:self.view]; 
+     提交失败的提示框,shake为YES,会有晃动效果.
+     [SQProgressHUD showFailToView:self.view message:@"非常抱歉,你提交的信息有误!" shake:NO];
+
      失败的提示框
      [SQProgressHUD showFailToView:self.view];
 
